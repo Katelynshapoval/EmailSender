@@ -7,9 +7,29 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 # Create your views here.
-def index(response, id):
-    ls = EmailList.objects.get(id=id)
+def index(response):
+    ls = EmailList.objects.all()
+    # form = CreateNewGroup()
+    if response.method == "POST":
+        if response.POST.get("newItem"):
+            txt = response.POST.get("new")
+
+            if len(txt) > 2:
+                new = EmailList(name=txt)
+                new.save()
+            else:
+                print("invalid")
     return render(response, "main/list.html", {"ls": ls})
+def list(response, id):
+    ls = EmailList.objects.get(id=int(id))
+
+            # t = EmailList(name=n)
+            # t.save()
+            # response.user.todolist.add(t)
+            # return HttpResponseRedirect("/%i" % t.id)
+
+    form = CreateNewGroup()
+    return render(response, "main/listofemails.html", {"ls": ls, "form": form})
 def send(response):
     if response.method == "POST":
         form = CreateNewList(response.POST)

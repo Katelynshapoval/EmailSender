@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+{% block title %}Email List{% endblock %}
+
+{% block content %}
+<h1>{{ls}}</h1>
+<ul>
+    {% for item in ls.item_set.all %}
+    <li>{{item}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

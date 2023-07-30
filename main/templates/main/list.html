@@ -1,11 +1,29 @@
 {% extends 'main/base.html' %}
-{% block title %}Email List{% endblock %}
+{% block title %}Group List{% endblock %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<h1>{{ls.name}}</h1>
-<ul>
-    {% for item in ls.item_set.all %}
-    <li>{{item.recipient}}</li>
-    {% endfor %}
-</ul>
+<h1>Groups</h1>
+<form method="post" action="#">
+    {% csrf_token %}
+
+    <ul>
+        {%for name in ls%}
+        <li><a href="/{{name.id}}">{{name}}</a></li>
+        <!--    {% for item in name.item_set.all %}-->
+        <!--    <li>{{item.recipient}}</li>-->
+        <!--    {% endfor %}-->
+        {% endfor %}
+    </ul>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <button type="submit" name="newItem" value="newItem" class="btn btn-success">New Group</button>
+
+        </div>
+        <input type="text" name="new">
+
+    </div>
+</form>
+
 {% endblock %}
