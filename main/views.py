@@ -24,6 +24,7 @@ def send(response):
                 [to],
                 fail_silently=False,
             )
+            form = CreateNewList()
             # t = EmailList(name=n)
             # t.save()
             # response.user.todolist.add(t)

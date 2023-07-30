@@ -1,17 +1,18 @@
 {% extends 'main/base.html' %}
 {% block title %}Email Sender{% endblock %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <h3>Send an email</h3>
 <form method="post" action="" class="form-group">
     {% csrf_token %}
-    <div class="input-group mb-3">
-        {% for i in form %}
-        {{ i.label_tag }}
-        {{ i }}
-        <br><br>
-        {% endfor %}
-        <div class="input-group-prepend">
+    <div>
+        <!--        {% for i in form %}-->
+        <!--        {{ i.label_tag }}-->
+        <!--        {{ i }}-->
+        <!--        <br><br>-->
+        <!--        {% endfor %}-->
+        {{form|crispy}}
+        <div class="input-group">
             <button type="submit" name="send" class="btn btn-success">Send</button>
         </div>
     </div>
