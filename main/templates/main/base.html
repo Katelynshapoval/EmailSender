@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!--{% load static %}-->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+</head>
+<body>
+<div class="sidenav">
+    <a href="">Hi</a>
+</div>
+<div id="content" name="content" class="main ">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>
