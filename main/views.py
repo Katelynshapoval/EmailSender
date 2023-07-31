@@ -26,14 +26,20 @@ def index(response):
     return render(response, "main/list.html", {"ls": ls})
 def list(response, id):
     ls = EmailList.objects.get(id=int(id))
-
+    if response.method == "POST":
+        if response.POST.get("newItem"):
+            txt = response.POST.get("new")
+            if len(txt) > 2:
+                ls.item_set.create(recipient=txt)
+                ls.save()
+            else:
+                print("invalid")
             # t = EmailList(name=n)
             # t.save()
             # response.user.todolist.add(t)
             # return HttpResponseRedirect("/%i" % t.id)
 
-    form = CreateNewGroup()
-    return render(response, "main/listofemails.html", {"ls": ls, "form": form})
+    return render(response, "main/listofemails.html", {"ls": ls})
 def send(response):
     if response.method == "POST":
         form = CreateNewList(response.POST)

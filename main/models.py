@@ -11,7 +11,7 @@ class EmailList(models.Model):
 class Item(models.Model):
     emaillist = models.ForeignKey(EmailList, on_delete=models.CASCADE)
     recipient = models.EmailField(max_length=300)
-    chosen = models.BooleanField()
+    # chosen = models.BooleanField()
     # to = models.EmailField(blank=True, null=True)
     # to = models.EmailField()
 

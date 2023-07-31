@@ -5,5 +5,8 @@ class CreateNewList(forms.Form):
     subject = forms.CharField(label="Subject", max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Enter the subject', "style": "width: 300px"}))
     content = forms.CharField(label="Content", max_length=500, widget=forms.Textarea(attrs={'placeholder': 'Enter the message', "style": "height: 100px"}))
 
-class CreateNewGroup(forms.Form):
-    name = forms.CharField(label="", max_length=200)
+# class CreateNewGroup(forms.Form):
+#     name = forms.CharField(label="", max_length=200)
+
+# class AddEmail(forms.Form):
+#     email = forms.EmailField(label="", max_length=200, widget=forms.TextInput(attrs={'placeholder': "Enter an email address", "style": "width: 250px"}))

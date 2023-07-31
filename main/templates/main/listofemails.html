@@ -8,4 +8,14 @@
     <li>{{item}}</li>
     {% endfor %}
 </ul>
+<form method="post" action="#">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <button type="submit" name="newItem" value="add" class="btn btn-success">Add</button>
+        </div>
+        <input placeholder="Enter an email" style="width: 250px" type="email" name="new">
+
+    </div>
+</form>
 {% endblock %}
