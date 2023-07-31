@@ -11,14 +11,18 @@ def index(response):
     ls = EmailList.objects.all()
     # form = CreateNewGroup()
     if response.method == "POST":
+        for item in ls:
+            if response.POST.get(str(item.id)) == "delete":
+                EmailList.objects.filter(id=item.id).delete()
+                return HttpResponseRedirect(response.path_info)
         if response.POST.get("newItem"):
             txt = response.POST.get("new")
-
             if len(txt) > 2:
                 new = EmailList(name=txt)
                 new.save()
             else:
                 print("invalid")
+            return HttpResponseRedirect("/%i" % new.id)
     return render(response, "main/list.html", {"ls": ls})
 def list(response, id):
     ls = EmailList.objects.get(id=int(id))
