@@ -22,25 +22,27 @@ def send(response):
             if selectID or emailInput:
                 if selectID != None:
                     list = EmailList.objects.get(id=selectID).item_set.all()
-                    emails = [name for name in list]
-                    new = EmailList(item=selectID)
-                    new.save()
+                    emails = [name.recipient for name in list]
+                    # new = EmailList(item=selectID)
+                    # new.save()
                 elif emailInput != "" and emailInput != None:
                     # list = EmailList.objects.get(name=emailInput).item_set.all()
                     emails = [emailInput]
-                    new = EmailList(name=emailInput)
-                    new.save()
+                    # new = EmailList(name=emailInput)
+                    # new.save()
+                send_mail(
+                    subject,
+                    content,
+                    "settings.EMAIL_HOST_USER",
+                    emails,
+                    fail_silently=False,
+                )
+                messages.success(response, "Email was successfully sent.")
                 return HttpResponseRedirect(response.path_info)
             else:
                 messages.warning(response, "Please select a group or enter an email.")
 
-            # send_mail(
-            #     subject,
-            #     content,
-            #     "settings.EMAIL_HOST_USER",
-            #     [emails],
-            #     fail_silently=False,
-            # )
+
             # form = CreateNewList()
 
     else:
@@ -73,6 +75,11 @@ def recipientGroups(response):
 def recipients(response, id):
     ls = EmailList.objects.get(id=id)
     if response.method == "POST":
+        for item in ls.item_set.all():
+            # If the delete button was clicked
+            if response.POST.get(str(item.id)) == "delete":
+                ls.item_set.all().filter(id=item.id).delete()
+                return HttpResponseRedirect(response.path_info)
         # Add an email to the group
         if response.POST.get("newItem"):
             txt = response.POST.get("new")
@@ -81,6 +88,7 @@ def recipients(response, id):
                 ls.save()
             else:
                 print("invalid")
+            return HttpResponseRedirect(response.path_info)
             # t = EmailList(name=n)
             # t.save()
             # response.user.todolist.add(t)
