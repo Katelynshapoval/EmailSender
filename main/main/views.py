@@ -1,10 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import EmailList, Item
 from .forms import *
 from django.core.mail import send_mail
 from django.contrib import messages
-from django.contrib.auth import logout
 
 
 # from django.conf import settings
@@ -99,7 +98,4 @@ def recipients(response, id):
 
 
 def home(response):
-    return render(response, "main/home.html", {})
-def logout_view(response):
-    logout(response)
-    return redirect("/")
+    return render(response, "main/base.html", {})

@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% block title %}Group List{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1>Groups</h1>
+<form method="post" action="./">
+    {% csrf_token %}
+    <ul>
+        {%for name in ls%}
+        <li><a href="/{{name.id}}">{{name}}</a>
+            <button type="submit" name="{{name.id}}" value="delete" class="btn"><i class="fa-solid fa-trash"></i>
+            </button>
+        </li>
+        {% endfor %}
+    </ul>
+
+</form>
+<form class="form-group" method="post" action="#">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <button type="submit" name="newItem" value="newItem" class="btn btn-success">New Group</button>
+        </div>
+        <input class="form-control" placeholder="Enter the group name" type="text" name="new">
+
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+{% block title %}Email Sender{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>Send an email</h3>
+<form method="post" action="" class="form-group">
+    {% csrf_token %}
+    <div>
+        <label for="group">Group</label>
+        <select name="group" id="group" class="form-control">
+            <option disabled selected value> -- select an option --</option>
+            {% for group in ls %}
+            <option value="{{group.id}}">{{group}}</option>
+            {% endfor %}
+        </select>
+        {{form|crispy}}
+        <div class="input-group">
+            <button type="submit" name="send" class="btn btn-success">Send</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
