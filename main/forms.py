@@ -1,6 +1,5 @@
 from django import forms
 from .models import EmailList
-GROUPS = ((str(name.id), name) for name in EmailList.objects.all())
 class CreateNewList(forms.Form):
     email = forms.EmailField(label="To", max_length=200, required=False, widget=forms.TextInput(attrs={'placeholder': "Enter the recipient's email address", "style": "width: 300px"}))
     # group = forms.CharField(label='Choose a group', required=False, widget=forms.Select(choices=GROUPS))
