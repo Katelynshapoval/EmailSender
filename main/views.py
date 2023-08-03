@@ -13,7 +13,8 @@ from django.contrib.auth import logout
 # Page that sends emails
 def send(response):
     if response.user.is_authenticated:
-        ls = EmailList.objects.all()
+        # ls = EmailList.objects.all()
+        ls = response.user.emaillist.all()
         if response.method == "POST":
             form = CreateNewList(response.POST)
             if form.is_valid():
@@ -57,7 +58,9 @@ def send(response):
 # Page which displays the groups of emails
 def recipientGroups(response):
     if response.user.is_authenticated:
-        ls = EmailList.objects.all()
+        # ls = EmailList.objects.all()
+        ls = response.user.emaillist.all()
+
         if response.method == "POST":
             for item in ls:
                 # If the delete button was clicked
@@ -70,6 +73,7 @@ def recipientGroups(response):
                 if len(txt) > 2:
                     new = EmailList(name=txt)
                     new.save()
+                    response.user.emaillist.add(new)
                 else:
                     print("invalid")
                 return HttpResponseRedirect("/%i" % new.id)
@@ -82,27 +86,28 @@ def recipientGroups(response):
 def recipients(response, id):
     if response.user.is_authenticated:
         ls = EmailList.objects.get(id=id)
-        if response.method == "POST":
-            for item in ls.item_set.all():
-                # If the delete button was clicked
-                if response.POST.get(str(item.id)) == "delete":
-                    ls.item_set.all().filter(id=item.id).delete()
+        if ls in response.user.emaillist.all():
+            if response.method == "POST":
+                for item in ls.item_set.all():
+                    # If the delete button was clicked
+                    if response.POST.get(str(item.id)) == "delete":
+                        ls.item_set.all().filter(id=item.id).delete()
+                        return HttpResponseRedirect(response.path_info)
+                # Add an email to the group
+                if response.POST.get("newItem"):
+                    txt = response.POST.get("new")
+                    if len(txt) > 2:
+                        ls.item_set.create(recipient=txt)
+                        ls.save()
+                    else:
+                        print("invalid")
                     return HttpResponseRedirect(response.path_info)
-            # Add an email to the group
-            if response.POST.get("newItem"):
-                txt = response.POST.get("new")
-                if len(txt) > 2:
-                    ls.item_set.create(recipient=txt)
-                    ls.save()
-                else:
-                    print("invalid")
-                return HttpResponseRedirect(response.path_info)
-                # t = EmailList(name=n)
-                # t.save()
-                # response.user.todolist.add(t)
-                # return HttpResponseRedirect("/%i" % t.id)
+                    # t = EmailList(name=n)
+                    # t.save()
+                    # response.user.todolist.add(t)
+                    # return HttpResponseRedirect("/%i" % t.id)
 
-        return render(response, "main/recipients.html", {"ls": ls})
+            return render(response, "main/recipients.html", {"ls": ls})
     else:
         return render(response, "main/home.html", {})
 

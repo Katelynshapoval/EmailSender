@@ -6,7 +6,7 @@ class EmailList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="emaillist", null=True)
     name = models.CharField(max_length=200)
     def __str__(self):
-        return self.user
+        return self.name
 
 
 class Item(models.Model):
