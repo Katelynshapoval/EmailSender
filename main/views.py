@@ -13,7 +13,6 @@ from django.contrib.auth import logout
 # Page that sends emails
 def send(response):
     if response.user.is_authenticated:
-        # ls = EmailList.objects.all()
         ls = response.user.emaillist.all()
         if response.method == "POST":
             form = CreateNewList(response.POST)
@@ -26,13 +25,8 @@ def send(response):
                     if selectID != None:
                         list = EmailList.objects.get(id=selectID).item_set.all()
                         emails = [name.recipient for name in list]
-                        # new = EmailList(item=selectID)
-                        # new.save()
                     elif emailInput != "" and emailInput != None:
-                        # list = EmailList.objects.get(name=emailInput).item_set.all()
                         emails = [emailInput]
-                        # new = EmailList(name=emailInput)
-                        # new.save()
                     send_mail(
                         subject,
                         content,
@@ -44,10 +38,6 @@ def send(response):
                     return HttpResponseRedirect(response.path_info)
                 else:
                     messages.warning(response, "Please select a group or enter an email.")
-
-
-                # form = CreateNewList()
-
         else:
             form = CreateNewList()
         return render(response, "main/send.html", {"form": form, "ls": ls})
@@ -58,9 +48,7 @@ def send(response):
 # Page which displays the groups of emails
 def recipientGroups(response):
     if response.user.is_authenticated:
-        # ls = EmailList.objects.all()
         ls = response.user.emaillist.all()
-
         if response.method == "POST":
             for item in ls:
                 # If the delete button was clicked
@@ -102,10 +90,6 @@ def recipients(response, id):
                     else:
                         print("invalid")
                     return HttpResponseRedirect(response.path_info)
-                    # t = EmailList(name=n)
-                    # t.save()
-                    # response.user.todolist.add(t)
-                    # return HttpResponseRedirect("/%i" % t.id)
 
             return render(response, "main/recipients.html", {"ls": ls})
     else:
