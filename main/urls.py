@@ -7,5 +7,5 @@ urlpatterns = [
     path("<int:id>", views.recipients, name="recipients"),
     path("recipients/", views.recipientGroups, name="recipientGroups"),
     path('send/', views.send, name='send'),
-    path("logout", views.logout_view, name="logout")
+    path("logout/", views.logout_view, name="logout")
 ]
